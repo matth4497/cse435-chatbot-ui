@@ -1,0 +1,52 @@
+.grid-container {
+  height: 100vh;
+  display: flex;
+}
+
+.chat {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 3;
+}
+
+.sidebar {
+  flex-grow: 1;
+  padding-right: 50px;
+  padding-top: 25px;
+}
+
+.sidebar-checkbox-label {
+  display: inline-block;
+  padding: 10px 10px 10px 10px;
+}
+
+.conversation-container {
+  flex-grow: 3;
+}
+
+.message-input-div {
+  padding-left: 20px;
+  padding-bottom: 25px;
+  align-self: left;
+}
+
+.message-input {
+  width: 90%;
+  height: 30px;
+}
+
+.User {
+  font-size: x-large;
+  text-align: left;
+  color: blue;
+  padding-right: 11%;
+}
+
+.Agent {
+  font-size: x-large;
+  text-align: left;
+}
+
+.send-button {
+  height: 35px;
+}
