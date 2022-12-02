@@ -1,15 +1,28 @@
 import "./App.css";
 import { useRef, useEffect, useState } from "react";
 
-const List = ({ items }) => (
+const List = ({ items }) => {
   <ul>
     {items.map((item, i) => (
       <p className={item.messageType} key={i}>
         {item.messageType}: {item.message}
       </p>
     ))}
-  </ul>
-);
+  </ul>;
+};
+
+const getBotResponse = (userMessage) => {
+  const requestOptions = {
+    method: "POST",
+    headers: {},
+    body: JSON.stringify({ name: "/get_response", input: userMessage }),
+  };
+  fetch("http://34.130.18.171:9999/get_response", requestOptions).then(
+    (response) => {
+      return response.json().output;
+    }
+  );
+};
 
 const conversation = [];
 
@@ -38,7 +51,8 @@ function App() {
         messageType: "User",
         message: sentMessage,
       });
-      conversation.push({ messageType: "Agent", message: sentMessage });
+      const response = getBotResponse(sentMessage);
+      conversation.push({ messageType: "Agent", message: response });
       setSentMessage(null);
     }
   }, [sentMessage]);
