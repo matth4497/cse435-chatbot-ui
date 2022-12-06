@@ -14,12 +14,13 @@ const List = ({ items }) => {
 const getBotResponse = (userMessage) => {
   const requestOptions = {
     method: "POST",
-    headers: {},
+    mode: "no-cors",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ name: "/get_response", input: userMessage }),
   };
   fetch("http://34.130.18.171:9999/get_response", requestOptions).then(
     (response) => {
-      return response.json().output;
+      return response;
     }
   );
 };
