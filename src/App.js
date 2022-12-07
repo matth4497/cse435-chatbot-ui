@@ -14,7 +14,10 @@ const List = ({ items }) => {
 const getBotResponse = (userMessage) => {
   const requestOptions = {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      accepts: "application/json",
+    },
     body: JSON.stringify({ name: "/get_response", input: userMessage }),
   };
   fetch("/get_response", requestOptions).then((response) => {
