@@ -1,35 +1,11 @@
 import "./App.css";
 import { useRef, useEffect, useState } from "react";
 
-const List = ({ items }) => {
-  <ul>
-    {items.map((item, i) => (
-      <p className={item.messageType} key={i}>
-        {item.messageType}: {item.message}
-      </p>
-    ))}
-  </ul>;
-};
-
-const getBotResponse = (userMessage) => {
-  const requestOptions = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      accepts: "application/json",
-    },
-    body: JSON.stringify({ name: "/get_response", input: userMessage }),
-  };
-  fetch("/get_response", requestOptions).then((response) => {
-    console.log(response);
-    return response;
-  });
-};
-
 const conversation = [];
 
 function App() {
   const [sentMessage, setSentMessage] = useState(null);
+  const [botResponse, setBotResponse] = useState(null);
   const allCheckboxRef = useRef();
   const polCheckboxRef = useRef();
   const envCheckboxRef = useRef();
@@ -48,22 +24,48 @@ function App() {
   }, []);
 
   useEffect(() => {
+    const getBotResponse = async (userMessage) => {
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          accepts: "application/json",
+        },
+        body: JSON.stringify({ name: "/get_response", input: userMessage }),
+      };
+      const data = await fetch("/get_response", requestOptions);
+      const jsonData = await data.json();
+      const botResponse = jsonData["output"];
+      setBotResponse(botResponse);
+    };
+
     if (sentMessage) {
-      conversation.push({
-        messageType: "User",
-        message: sentMessage,
-      });
-      const response = getBotResponse(sentMessage);
-      conversation.push({ messageType: "Agent", message: response });
+      conversation.push({ messageType: "User", message: sentMessage });
+      getBotResponse(sentMessage);
       setSentMessage(null);
     }
-  }, [sentMessage]);
+
+    if (botResponse) {
+      conversation.push({ messageType: "Agent", message: botResponse });
+      window.scrollTo(0, document.body.scrollHeight);
+      setSentMessage(null);
+      setBotResponse(null);
+    }
+  }, [sentMessage, botResponse]);
 
   return (
     <div className="grid-container">
       <div className="chat">
         <div className="conversation-container">
-          <List items={conversation} />
+          <ul>
+            {conversation.map((m) => {
+              return (
+                <p className={m["messageType"]}>
+                  {m["messageType"]}: {m["message"]}
+                </p>
+              );
+            })}
+          </ul>
         </div>
         <div className="message-input-div">
           <input className="message-input" type="text" ref={messageInputRef} />
