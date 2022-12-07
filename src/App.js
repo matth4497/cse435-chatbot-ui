@@ -66,7 +66,7 @@ function App() {
         }),
       };
       const data = await fetch(
-        "http://34.130.63.201:9999/get_response",
+        "http://localhost:9999/get_response",
         requestOptions
       );
       const jsonData = await data.json();
