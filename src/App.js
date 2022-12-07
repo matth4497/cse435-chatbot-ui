@@ -60,7 +60,7 @@ function App() {
           accepts: "application/json",
         },
         body: JSON.stringify({
-          name: "/get_response",
+          name: "http://34.130.63.201:9999/get_response",
           input: userMessage,
           filters: getFiltersList(),
         }),
