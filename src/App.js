@@ -17,13 +17,18 @@ function App() {
   const getFiltersList = () => {
     const retVal = [];
     if (allCheckboxRef.current.checked) {
+      retVal.push("Politics");
+      retVal.push("Environment");
+      retVal.push("Technology");
+      retVal.push("Healthcare");
+      retVal.push("Education");
       return retVal;
     }
     if (polCheckboxRef.current.checked) {
       retVal.push("Politics");
     }
     if (envCheckboxRef.current.checked) {
-      retVal.push("Enviroment");
+      retVal.push("Environment");
     }
     if (techCheckboxRef.current.checked) {
       retVal.push("Technology");
