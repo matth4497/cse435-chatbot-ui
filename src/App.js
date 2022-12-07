@@ -65,10 +65,7 @@ function App() {
           filters: getFiltersList(),
         }),
       };
-      const data = await fetch(
-        "http://localhost:9999/get_response",
-        requestOptions
-      );
+      const data = await fetch("/get_response", requestOptions);
       const jsonData = await data.json();
       const botResponse = jsonData["output"];
       setBotResponse(botResponse);
