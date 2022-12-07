@@ -14,6 +14,29 @@ function App() {
   const eduCheckboxRef = useRef();
   const messageInputRef = useRef();
 
+  const getFiltersList = () => {
+    const retVal = [];
+    if (allCheckboxRef.current.checked) {
+      return retVal;
+    }
+    if (polCheckboxRef.current.checked) {
+      retVal.push("Politics");
+    }
+    if (envCheckboxRef.current.checked) {
+      retVal.push("Enviroment");
+    }
+    if (techCheckboxRef.current.checked) {
+      retVal.push("Technology");
+    }
+    if (healthCheckboxRef.current.checked) {
+      retVal.push("Healthcare");
+    }
+    if (eduCheckboxRef.current.checked) {
+      retVal.push("Education");
+    }
+    return retVal;
+  };
+
   useEffect(() => {
     document.addEventListener("keypress", (event) => {
       if (event.key === "Enter") {
@@ -31,7 +54,11 @@ function App() {
           "Content-Type": "application/json",
           accepts: "application/json",
         },
-        body: JSON.stringify({ name: "/get_response", input: userMessage }),
+        body: JSON.stringify({
+          name: "/get_response",
+          input: userMessage,
+          filters: getFiltersList(),
+        }),
       };
       const data = await fetch("/get_response", requestOptions);
       const jsonData = await data.json();
